@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <mvc:annotation-driven>
+        <!--显式开启异步请求支持，不设置则使用默认
+        具体设置参考：https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-ann-async-configuration-spring-mvc-->
+        <!--这里default-timeout需要手动设置一个数值，单位毫秒，否则会出现将""空字符串转换成数字的异常-->
+        <!--<mvc:async-support default-timeout="10000" />-->
+    </mvc:annotation-driven>
+    <context:component-scan base-package="com.zbk.myservice"/>
+</beans>
