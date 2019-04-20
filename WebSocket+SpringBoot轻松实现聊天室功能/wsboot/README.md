@@ -1,0 +1,3 @@
+一个最简单的websocket示例
+
+后端只有websocket，前端未使用任何第三方js库

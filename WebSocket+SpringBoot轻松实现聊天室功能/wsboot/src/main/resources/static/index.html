@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WSBoot</title>
+</head>
+<body>
+<div>
+    <div><textarea id="msg_in" style="width: 300px;height: 200px;"></textarea></div>
+    <div>
+        <button type="button">连接</button>
+        <button type="button" onclick="sendMsg()">发送</button>
+        <button type="button" onclick="closeWebsocket()">关闭</button>
+    </div>
+    <div style="border: 1px #000000 solid;width: 300px;min-height: 100px;">
+        <div>收到消息：</div>
+        <hr />
+        <div id="msg_out"></div>
+    </div>
+</div>
+<script>
+    var websocket = null;
+    //判断当前浏览器是否支持websocket
+    if ('WebSocket' in window) {
+        var wsurl = "ws://127.0.0.1:8087/websocket";
+        websocket = new WebSocket(wsurl);
+
+        //连接成功的回调方法
+        websocket.onopen = function (ev) {
+            console.log("服务器连接成功");
+            setMessageInnetHTML("服务器连接成功");
+        };
+
+        //连接关闭的回调
+        websocket.onclose = function (ev) {
+            setMessageInnetHTML("已关闭当前连接");
+        };
+
+        //发生连接错误的回调
+        websocket.onerror = function (ev) {
+            setMessageInnetHTML("与服务器连接发生错误");
+        };
+
+        //收到消息的回调
+        websocket.onmessage = function (ev) {
+            setMessageInnetHTML(ev.data);
+        };
+
+        //当窗口关闭的时候也要关闭websocket
+        window.onbeforeunload = function () {
+            websocket.close();
+        }
+    }else {
+        console.log("当前浏览器不支持websocket");
+    }
+    //将消息设置到消息显示区域
+    function setMessageInnetHTML(message) {
+        var msg_out = document.getElementById("msg_out");
+        msg_out.innerHTML = message + "<br />" + msg_out.innerHTML;
+    }
+    //关闭连接的方法
+    function closeWebsocket() {
+        websocket.close();
+    }
+    //发送消息的方法
+    function sendMsg() {
+        websocket.send(document.getElementById("msg_in").value);
+    }
+</script>
+</body>
+</html>
